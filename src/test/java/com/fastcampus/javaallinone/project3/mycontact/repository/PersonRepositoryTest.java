@@ -20,6 +20,7 @@ class PersonRepositoryTest {
         Person person = new Person();
         person.setName("martin");
         person.setAge(10);
+        person.setBloodType("A");
         personRepository.save(person);
 
         // System.out.println(personRepository.findAll());
@@ -34,11 +35,13 @@ class PersonRepositoryTest {
         // 1차 수정 후 출력값:
         // [Person{id=1, name='null', age=0}]
 
-        List<Person> people = personRepository.findAll();;
+        List<Person> people = personRepository.findAll();
         assertEquals(1, people.size());
         assertEquals("martin", people.get(0).getName());
         assertEquals(10, people.get(0).getAge());
+        assertEquals("A", people.get(0).getBloodType());
 
+        System.out.println(people.get(0));
 
     }
 
