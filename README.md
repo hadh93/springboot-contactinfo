@@ -8,4 +8,4 @@ FASTCAMPUS Java Back-End Project 2: Contact Info
 > </p>
 
 - Dev log
-> N/A
+> 10.27.2022 ~
