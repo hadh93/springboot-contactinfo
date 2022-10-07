@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import java.time.LocalDate;
 
 @Entity
@@ -19,9 +20,10 @@ public class Person {
     @GeneratedValue
     private Long id;
 
-    @NotNull
+    // @NonNull 된 속성들은 Required Arguments로 취급된다.
+    @NonNull
     private String name;
-    @NotNull
+    @NonNull
     private int age;
 
     private String hobby;
@@ -31,8 +33,12 @@ public class Person {
     private String address;
     private LocalDate birthday;
     private String job;
+
+    // 민감정보는 다음과 같이 은폐한다.
     @ToString.Exclude
     private String phoneNumber;
 
+    @OneToOne
+    private Block block;
 
 }
