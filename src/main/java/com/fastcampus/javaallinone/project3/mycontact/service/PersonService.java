@@ -37,4 +37,11 @@ public class PersonService {
         return person;
     }
 
+    public List<Person> getPeopleByName(String name) {
+        /*
+        List<Person> people = personRepository.findAll();
+        return people.stream().filter(person -> person.getName().equals(name)).collect(Collectors.toList());
+         */
+        return personRepository.findByName(name);
+    }
 }
