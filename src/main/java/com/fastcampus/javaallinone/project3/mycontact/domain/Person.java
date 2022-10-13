@@ -1,10 +1,11 @@
 package com.fastcampus.javaallinone.project3.mycontact.domain;
 
+import com.fastcampus.javaallinone.project3.mycontact.domain.dto.Birthday;
 import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import javax.validation.Valid;
 
 @Entity
 @NoArgsConstructor
@@ -28,7 +29,11 @@ public class Person {
     @NotNull
     private String bloodType;
     private String address;
-    private LocalDate birthday;
+
+    @Embedded
+    @Valid
+    private Birthday birthday;
+
     private String job;
 
     // 민감정보는 다음과 같이 은폐한다.
