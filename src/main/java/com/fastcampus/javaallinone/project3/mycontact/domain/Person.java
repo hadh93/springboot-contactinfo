@@ -15,7 +15,7 @@ import javax.validation.Valid;
 // @ToString(exclude = "phoneNumber")
 public class Person {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     // @NonNull 된 속성들은 Required Arguments로 취급된다.

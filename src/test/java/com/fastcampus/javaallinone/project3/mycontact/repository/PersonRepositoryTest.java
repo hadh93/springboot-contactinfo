@@ -23,7 +23,7 @@ class PersonRepositoryTest {
     @Test
     void crud(){
         Person person = new Person();
-        person.setName("martin");
+        person.setName("john");
         person.setAge(10);
         person.setBloodType("A");
         personRepository.save(person);
@@ -41,10 +41,10 @@ class PersonRepositoryTest {
         // [Person{id=1, name='null', age=0}]
 
         List<Person> people = personRepository.findAll();
-        assertEquals(1, people.size());
-        assertEquals("martin", people.get(0).getName());
-        assertEquals(10, people.get(0).getAge());
-        assertEquals("A", people.get(0).getBloodType());
+        assertEquals(2, people.size());
+        assertEquals("john", people.get(1).getName());
+        assertEquals(10, people.get(1).getAge());
+        assertEquals("A", people.get(1).getBloodType());
 
         System.out.println(people.get(0));
 
