@@ -42,9 +42,9 @@ class PersonRepositoryTest {
 
         List<Person> people = personRepository.findAll();
         assertEquals(2, people.size());
-        assertEquals("john", people.get(1).getName());
-        assertEquals(10, people.get(1).getAge());
-        assertEquals("A", people.get(1).getBloodType());
+        assertEquals("john", people.get(0).getName());
+        assertEquals(10, people.get(0).getAge());
+        assertEquals("A", people.get(0).getBloodType());
 
         System.out.println(people.get(0));
 

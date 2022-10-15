@@ -1,4 +1,4 @@
-insert into person('id', 'name', 'age', 'blood_type') values (1, 'martin', 10, 'A');
+insert into person(`id`, `name`, `age`, `blood_type`) values (2, 'martin', 10, 'A');
 -- TODO: fix following bug in this sql file:
 -- org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSourceScriptDatabaseInitializer'
 -- defined in class path resource [org/springframework/boot/autoconfigure/sql/init/DataSourceInitializationConfiguration.class]:

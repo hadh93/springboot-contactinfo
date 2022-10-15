@@ -11,7 +11,9 @@ import javax.validation.Valid;
 @NoArgsConstructor
 @AllArgsConstructor
 @RequiredArgsConstructor
-@Data // Equivalent to {@code @Getter @Setter @RequiredArgsConstructor @ToString @EqualsAndHashCode}.
+@Getter
+@Setter
+// Equivalent to {@code @Getter @Setter @RequiredArgsConstructor @ToString @EqualsAndHashCode}.
 // @ToString(exclude = "phoneNumber")
 public class Person {
     @Id
