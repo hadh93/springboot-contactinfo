@@ -41,6 +41,7 @@ class PersonRepositoryTest {
         // [Person{id=1, name='null', age=0}]
 
         List<Person> people = personRepository.findAll();
+
         assertEquals(2, people.size());
         assertEquals("john", people.get(0).getName());
         assertEquals(10, people.get(0).getAge());
