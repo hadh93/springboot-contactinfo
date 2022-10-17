@@ -1,6 +1,5 @@
 package com.fastcampus.javaallinone.project3.mycontact.service;
 
-import com.fastcampus.javaallinone.project3.mycontact.domain.Block;
 import com.fastcampus.javaallinone.project3.mycontact.domain.Person;
 import com.fastcampus.javaallinone.project3.mycontact.repository.BlockRepository;
 import com.fastcampus.javaallinone.project3.mycontact.repository.PersonRepository;
@@ -8,11 +7,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@Transactional
 @SpringBootTest
 class PersonServiceTest {
     @Autowired
@@ -24,22 +25,25 @@ class PersonServiceTest {
 
     @Test
     void getPeopleExcludeBlocks(){
-        givenPeople();
         List<Person> result = personService.getPeopleExcludeBlocks();
-//        System.out.println(result);
-        result.forEach(System.out::println);
+
+        assertEquals(3, result.size());
+        assertEquals("martin", result.get(0).getName());
+        assertEquals("david", result.get(1).getName());
+        assertEquals("benny", result.get(2).getName());
+
     }
 
     @Test
     void getPeopleByName(){
-        givenPeople();
         List<Person> result = personService.getPeopleByName("martin");
-        result.forEach(System.out::println);
+
+        assertEquals(1, result.size());
+        assertEquals("martin", result.get(0).getName());
     }
 
     @Test
     void cascadeTest(){
-        givenPeople();
         List<Person> result = personRepository.findAll();
         result.forEach(System.out::println);
 
@@ -61,26 +65,8 @@ class PersonServiceTest {
 
     @Test
     void getPerson(){
-        givenPeople();
-        Person person = personService.getPerson(3L);
-        System.out.println(person);
+        Person person = personService.getPerson(4L);
+        assertEquals("dennis", person.getName());
     }
 
-    private void givenPeople() {
-        givenPerson("martin", 10, "A");
-        givenPerson("david", 9, "B");
-        givenBlockPerson("dennis", 7, "O");
-        givenBlockPerson("martin", 11, "AB");
-
-    }
-
-    private void givenBlockPerson(String name, int age, String bloodType){
-        Person blockPerson = new Person(name, age, bloodType);
-        blockPerson.setBlock(new Block(name));
-        personRepository.save(blockPerson);
-    }
-
-    private void givenPerson(String name, int age, String bloodType) {
-        personRepository.save(new Person(name, age, bloodType));
-    }
 }

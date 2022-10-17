@@ -6,11 +6,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
+@Transactional
 @SpringBootTest
 class BlockRepositoryTest {
     @Autowired
@@ -27,7 +27,7 @@ class BlockRepositoryTest {
         blockRepository.save(block);
 
         List<Block> blocks = blockRepository.findAll();
-        Assertions.assertEquals(1, blocks.size());
+        Assertions.assertEquals(3, blocks.size());
         Assertions.assertEquals("martin", blocks.get(0).getName());
     }
 
