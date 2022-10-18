@@ -1,6 +1,5 @@
 package com.fastcampus.javaallinone.project3.mycontact.service;
 
-import com.fastcampus.javaallinone.project3.mycontact.domain.Block;
 import com.fastcampus.javaallinone.project3.mycontact.domain.Person;
 import com.fastcampus.javaallinone.project3.mycontact.repository.BlockRepository;
 import com.fastcampus.javaallinone.project3.mycontact.repository.PersonRepository;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -34,7 +32,10 @@ public class PersonService {
 
     @Transactional
     public Person getPerson(Long id){
-        Person person = personRepository.findById(id).get();
+        //Person person = personRepository.findById(id).get();
+
+        Person person = personRepository.findById(id).orElse(null);
+
         // System.out.println("person : "+person);
         log.info("person : {}", person);
         return person;
@@ -46,5 +47,9 @@ public class PersonService {
         return people.stream().filter(person -> person.getName().equals(name)).collect(Collectors.toList());
          */
         return personRepository.findByName(name);
+    }
+
+    public void put(Person person) {
+        personRepository.save(person);
     }
 }
