@@ -6,6 +6,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @NoArgsConstructor
@@ -22,13 +24,19 @@ public class Person {
 
     // @NonNull 된 속성들은 Required Arguments로 취급된다.
     @NonNull
+    @NotEmpty
+    @Column(nullable = false)
     private String name;
+
     @NonNull
+    @Min(1)
     private int age;
 
     private String hobby;
 
     @NotNull
+    @NotEmpty
+    @Column(nullable = false)
     private String bloodType;
     private String address;
 
