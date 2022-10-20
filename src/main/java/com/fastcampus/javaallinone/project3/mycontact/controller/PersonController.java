@@ -30,4 +30,10 @@ public class PersonController {
         personService.put(person);
         log.info("person -> {}", personRepository.findAll());
     }
+
+    @PutMapping("/{id}")
+    public void modifyPerson(@PathVariable Long id, @RequestBody Person person){
+        personService.modify(id, person);
+        log.info("person -> {}", personRepository.findAll());
+    }
 }
