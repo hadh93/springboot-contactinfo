@@ -22,7 +22,7 @@ class PersonControllerTest {
     void getPerson() throws Exception{
         mockMvc = MockMvcBuilders.standaloneSetup(personController).build();
         mockMvc.perform(
-                MockMvcRequestBuilders.get("/api/person/1"))
+                MockMvcRequestBuilders.get("/api/person/2"))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
@@ -50,12 +50,25 @@ class PersonControllerTest {
                 MockMvcRequestBuilders.put("/api/person/2")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\n" +
-                                "    \"name\": \"martin2\", \n" +
+                                "    \"name\": \"martin\", \n" +
                                 "    \"age\": 20, \n" +
                                 "    \"bloodType\": \"A\"\n" +
                                 "}"))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
+
+    @Test
+    void modifyName() throws Exception{
+        mockMvc = MockMvcBuilders.standaloneSetup(personController).build();
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.patch("/api/person/2")
+                        .param("name","martin22"))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+
 
 }

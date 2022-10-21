@@ -1,8 +1,10 @@
 package com.fastcampus.javaallinone.project3.mycontact.domain;
 
+import com.fastcampus.javaallinone.project3.mycontact.controller.dto.PersonDto;
 import com.fastcampus.javaallinone.project3.mycontact.domain.dto.Birthday;
 import com.sun.istack.NotNull;
 import lombok.*;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -53,5 +55,27 @@ public class Person {
     @OneToOne(cascade = {CascadeType.ALL}, orphanRemoval = true, fetch = FetchType.EAGER)
     @ToString.Exclude
     private Block block;
+
+    public void set(PersonDto personDto){
+        if (personDto.getAge() != 0){
+            this.setAge(personDto.getAge());
+        }
+        if (!StringUtils.hasText(personDto.getHobby())){
+            this.setHobby(personDto.getHobby());
+        }
+        if (!StringUtils.hasText(personDto.getBloodType())){
+            this.setBloodType(personDto.getBloodType());
+        }
+        if (!StringUtils.hasText(personDto.getAddress())){
+            this.setAddress(personDto.getAddress());
+        }
+        if (!StringUtils.hasText(personDto.getJob())){
+            this.setJob(personDto.getJob());
+        }
+        if (!StringUtils.hasText(personDto.getPhoneNumber())){
+            this.setPhoneNumber(personDto.getPhoneNumber());
+        }
+
+    }
 
 }
