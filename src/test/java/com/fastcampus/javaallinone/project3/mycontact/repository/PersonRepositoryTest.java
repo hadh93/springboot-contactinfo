@@ -22,6 +22,7 @@ class PersonRepositoryTest {
     @Test
     void crud(){
         Person person = new Person();
+        person.setId(6L);
         person.setName("john");
         person.setBloodType("A");
         personRepository.save(person);
@@ -70,13 +71,13 @@ class PersonRepositoryTest {
 
     }
 
-    private void givenPerson(String name, int age, String bloodType){
-        givenPerson(name, age, bloodType, null);
+    private void givenPerson(String name, String bloodType){
+        givenPerson(name, bloodType, null);
     }
 
-    private void givenPerson(String name, int age, String bloodType, LocalDate birthday){
-        Person person = new Person(name, age, bloodType);
-        person.setBirthday(new Birthday(birthday));
+    private void givenPerson(String name, String bloodType, LocalDate birthday){
+        Person person = new Person(name, bloodType);
+        person.setBirthday(Birthday.of(birthday));
         personRepository.save(person);
 
     }

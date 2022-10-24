@@ -65,7 +65,7 @@ class PersonServiceTest {
 
     @Test
     void getPerson(){
-        Person person = personService.getPerson(4L);
+        Person person = personService.getPerson(3L);
         assertEquals("dennis", person.getName());
     }
 

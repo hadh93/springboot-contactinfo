@@ -28,7 +28,7 @@ class BlockRepositoryTest {
 
         List<Block> blocks = blockRepository.findAll();
         Assertions.assertEquals(3, blocks.size());
-        Assertions.assertEquals("martin", blocks.get(0).getName());
+        Assertions.assertEquals("martin", blocks.get(2).getName());
     }
 
 }

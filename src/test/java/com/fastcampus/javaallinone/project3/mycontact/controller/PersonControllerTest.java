@@ -37,7 +37,7 @@ class PersonControllerTest {
     @Test
     void getPerson() throws Exception{
         mockMvc.perform(
-                MockMvcRequestBuilders.get("/api/person/2"))
+                MockMvcRequestBuilders.get("/api/person/1"))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
@@ -60,7 +60,7 @@ class PersonControllerTest {
     void modifyPerson() throws Exception {
 
         mockMvc.perform(
-                MockMvcRequestBuilders.put("/api/person/2")
+                MockMvcRequestBuilders.put("/api/person/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\n" +
                                 "    \"name\": \"martin\", \n" +
@@ -75,7 +75,7 @@ class PersonControllerTest {
     void modifyName() throws Exception{
 
         mockMvc.perform(
-                MockMvcRequestBuilders.patch("/api/person/2")
+                MockMvcRequestBuilders.patch("/api/person/1")
                         .param("name","martin22"))
                 .andDo(print())
                 .andExpect(status().isOk());
@@ -84,7 +84,7 @@ class PersonControllerTest {
     @Test
     void deletePerson() throws Exception{
         mockMvc.perform(
-                MockMvcRequestBuilders.delete("/api/person/2")
+                MockMvcRequestBuilders.delete("/api/person/1")
         )
                 .andDo(print())
                 .andExpect(status().isOk());
