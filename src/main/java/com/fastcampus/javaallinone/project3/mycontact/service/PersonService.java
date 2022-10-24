@@ -64,7 +64,7 @@ public class PersonService {
         }
 
         if (personDto.getBirthday() != null){
-            person.setBirthday(new Birthday(personDto.getBirthday()));
+            person.setBirthday(Birthday.of(personDto.getBirthday()));
         }
 
         person.set(personDto);
