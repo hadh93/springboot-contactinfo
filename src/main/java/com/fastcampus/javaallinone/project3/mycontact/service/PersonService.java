@@ -3,7 +3,6 @@ package com.fastcampus.javaallinone.project3.mycontact.service;
 import com.fastcampus.javaallinone.project3.mycontact.controller.dto.PersonDto;
 import com.fastcampus.javaallinone.project3.mycontact.domain.Person;
 import com.fastcampus.javaallinone.project3.mycontact.domain.dto.Birthday;
-import com.fastcampus.javaallinone.project3.mycontact.repository.BlockRepository;
 import com.fastcampus.javaallinone.project3.mycontact.repository.PersonRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,20 +16,6 @@ import java.util.List;
 public class PersonService {
     @Autowired
     private PersonRepository personRepository;
-
-    @Autowired
-    private BlockRepository blockRepository;
-
-    public List<Person> getPeopleExcludeBlocks(){
-
-//        List<Block> blocks = blockRepository.findAll();
-//        List<String> blockNames = blocks.stream().map(Block::getName).collect(Collectors.toList());
-        /*
-        List<Person> people = personRepository.findAll();
-        return people.stream().filter(person -> person.getBlock() == null).collect(Collectors.toList());
-         */
-        return personRepository.findByBlockIsNull();
-    }
 
     @Transactional
     public Person getPerson(Long id){

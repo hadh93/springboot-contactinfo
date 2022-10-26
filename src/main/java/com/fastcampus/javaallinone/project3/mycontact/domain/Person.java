@@ -2,7 +2,6 @@ package com.fastcampus.javaallinone.project3.mycontact.domain;
 
 import com.fastcampus.javaallinone.project3.mycontact.controller.dto.PersonDto;
 import com.fastcampus.javaallinone.project3.mycontact.domain.dto.Birthday;
-import com.sun.istack.NotNull;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Where;
@@ -35,10 +34,6 @@ public class Person {
 
     private String hobby;
 
-    @NotNull
-    @NotEmpty
-    @Column(nullable = false)
-    private String bloodType;
     private String address;
 
     @Embedded
@@ -47,23 +42,15 @@ public class Person {
 
     private String job;
 
-    // 민감정보는 다음과 같이 은폐한다.
-    @ToString.Exclude
     private String phoneNumber;
 
     @ColumnDefault("0")
     private boolean deleted;
 
-    @OneToOne(cascade = {CascadeType.ALL}, orphanRemoval = true, fetch = FetchType.EAGER)
-    @ToString.Exclude
-    private Block block;
 
     public void set(PersonDto personDto){
         if (!StringUtils.hasText(personDto.getHobby())){
             this.setHobby(personDto.getHobby());
-        }
-        if (!StringUtils.hasText(personDto.getBloodType())){
-            this.setBloodType(personDto.getBloodType());
         }
         if (!StringUtils.hasText(personDto.getAddress())){
             this.setAddress(personDto.getAddress());
@@ -73,6 +60,9 @@ public class Person {
         }
         if (!StringUtils.hasText(personDto.getPhoneNumber())){
             this.setPhoneNumber(personDto.getPhoneNumber());
+        }
+        if (personDto.getBirthday() != null){
+            this.setBirthday(Birthday.of(personDto.getBirthday()));
         }
 
     }

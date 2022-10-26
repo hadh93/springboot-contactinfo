@@ -24,7 +24,6 @@ class PersonRepositoryTest {
         Person person = new Person();
         person.setId(6L);
         person.setName("john");
-        person.setBloodType("A");
         personRepository.save(person);
 
         // System.out.println(personRepository.findAll());
@@ -44,19 +43,6 @@ class PersonRepositoryTest {
         assertEquals(1, people.size());
         assertEquals("john", people.get(0).getName());
 //        assertEquals(10, people.get(0).getAge());
-        assertEquals("A", people.get(0).getBloodType());
-
-    }
-
-    @Test
-    void findByBloodType(){
-
-
-        List<Person> result = personRepository.findByBloodType("A");
-        assertEquals(2, result.size());
-        assertEquals("martin", result.get(0).getName());
-        assertEquals("benny", result.get(1).getName());
-
 
     }
 
@@ -71,12 +57,12 @@ class PersonRepositoryTest {
 
     }
 
-    private void givenPerson(String name, String bloodType){
-        givenPerson(name, bloodType, null);
+    private void givenPerson(String name){
+        givenPerson(name, null);
     }
 
-    private void givenPerson(String name, String bloodType, LocalDate birthday){
-        Person person = new Person(name, bloodType);
+    private void givenPerson(String name, LocalDate birthday){
+        Person person = new Person(name);
         person.setBirthday(Birthday.of(birthday));
         personRepository.save(person);
 
