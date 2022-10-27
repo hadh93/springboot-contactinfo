@@ -49,16 +49,16 @@ public class Person {
 
 
     public void set(PersonDto personDto){
-        if (!StringUtils.hasText(personDto.getHobby())){
+        if (StringUtils.hasText(personDto.getHobby())){
             this.setHobby(personDto.getHobby());
         }
-        if (!StringUtils.hasText(personDto.getAddress())){
+        if (StringUtils.hasText(personDto.getAddress())){
             this.setAddress(personDto.getAddress());
         }
-        if (!StringUtils.hasText(personDto.getJob())){
+        if (StringUtils.hasText(personDto.getJob())){
             this.setJob(personDto.getJob());
         }
-        if (!StringUtils.hasText(personDto.getPhoneNumber())){
+        if (StringUtils.hasText(personDto.getPhoneNumber())){
             this.setPhoneNumber(personDto.getPhoneNumber());
         }
         if (personDto.getBirthday() != null){
