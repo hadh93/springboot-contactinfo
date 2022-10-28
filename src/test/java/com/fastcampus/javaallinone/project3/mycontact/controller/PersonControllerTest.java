@@ -23,6 +23,7 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Slf4j
@@ -51,8 +52,27 @@ class PersonControllerTest {
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/api/person/1"))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value("martin"))
+                .andExpect(jsonPath("hobby").isEmpty()) // empty임을 검증하는 이유: value는 없지만 key값이 존재해야 함.
+                .andExpect(jsonPath("address").isEmpty())
+                .andExpect(jsonPath("$.birthday.yearOfBirthday").value(1991))
+                .andExpect(jsonPath("$.birthday.monthOfBirthday").value(8))
+                .andExpect(jsonPath("$.birthday.dayOfBirthday").value(15))
+                .andExpect(jsonPath("$.job").isEmpty())
+                .andExpect(jsonPath("$.phoneNumber").isEmpty())
+                .andExpect(jsonPath("$.deleted").value(false))
+                .andExpect(jsonPath("$.age").value(32))
+                .andExpect(jsonPath("$.birthdayToday").value(false));
+
+
+        // 이하 Json 객체에 대한 검증
+        // .andExpect(jsonPath("$.name").value("martin"));
+
+        // 이하 Java 객체에 대한 검증
+        // assertEquals("martin", result.getName());
     }
+
 
     @Test
     void postPerson() throws Exception{
