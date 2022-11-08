@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.web.servlet.MockMvc;
@@ -22,7 +23,7 @@ import org.springframework.web.util.NestedServletException;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -57,8 +58,8 @@ class PersonControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("martin"))
-                .andExpect(jsonPath("hobby").isEmpty()) // empty임을 검증하는 이유: value는 없지만 key값이 존재해야 함.
-                .andExpect(jsonPath("address").isEmpty())
+                .andExpect(jsonPath("$.hobby").isEmpty()) // empty임을 검증하는 이유: value는 없지만 key값이 존재해야 함.
+                .andExpect(jsonPath("$.address").isEmpty())
                 .andExpect(jsonPath("$.birthday").value("1991-08-15"))
                 .andExpect(jsonPath("$.job").isEmpty())
                 .andExpect(jsonPath("$.phoneNumber").isEmpty())
@@ -77,14 +78,25 @@ class PersonControllerTest {
 
     @Test
     void postPerson() throws Exception{
+
+        PersonDto dto = PersonDto.of("martin", "programming", "판교", LocalDate.now(), "programmer", "010-1111-2222");
+
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/api/person")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\n" +
-                                "    \"name\": \"martin2\", \n" +
-                                "}"))
+                        .content(toJsonString(dto)))
                 .andDo(print())
                 .andExpect(status().isCreated());
+
+        Person result = personRepository.findAll(Sort.by(Sort.Direction.DESC, "id")).get(0); // 가장 마지막 값을 조회
+        assertAll(
+                () -> assertEquals("martin", result.getName()),
+                () -> assertEquals("programming", result.getHobby()),
+                () -> assertEquals("판교", result.getAddress()),
+                () -> assertEquals(Birthday.of(LocalDate.now()), result.getBirthday()),
+                () -> assertEquals("programmer", result.getJob()),
+                () -> assertEquals("010-1111-2222", result.getPhoneNumber())
+        );
     }
 
     @Test
