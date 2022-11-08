@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -41,10 +42,12 @@ class PersonControllerTest {
 
     private MockMvc mockMvc;
 
+    @Autowired
+    private MappingJackson2HttpMessageConverter messageConverter;
 
     @BeforeEach
     void beforeEach(){
-        mockMvc = MockMvcBuilders.standaloneSetup(personController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(personController).setMessageConverters(messageConverter).build();
     }
 
     @Test
@@ -56,14 +59,12 @@ class PersonControllerTest {
                 .andExpect(jsonPath("$.name").value("martin"))
                 .andExpect(jsonPath("hobby").isEmpty()) // empty임을 검증하는 이유: value는 없지만 key값이 존재해야 함.
                 .andExpect(jsonPath("address").isEmpty())
-                .andExpect(jsonPath("$.birthday.yearOfBirthday").value(1991))
-                .andExpect(jsonPath("$.birthday.monthOfBirthday").value(8))
-                .andExpect(jsonPath("$.birthday.dayOfBirthday").value(15))
+                .andExpect(jsonPath("$.birthday").value("1991-08-15"))
                 .andExpect(jsonPath("$.job").isEmpty())
                 .andExpect(jsonPath("$.phoneNumber").isEmpty())
                 .andExpect(jsonPath("$.deleted").value(false))
-                .andExpect(jsonPath("$.age").value(32))
-                .andExpect(jsonPath("$.birthdayToday").value(false));
+                .andExpect(jsonPath("$.age").isNumber()) // 나이는 변화하므로, 키값의 존재만 여기서 확인한다.
+                .andExpect(jsonPath("$.birthdayToday").isBoolean()); // 오늘이 생일인가? 는 매일 변화하므로, 키 값의 존재만 여기서 확인한다.
 
 
         // 이하 Json 객체에 대한 검증
