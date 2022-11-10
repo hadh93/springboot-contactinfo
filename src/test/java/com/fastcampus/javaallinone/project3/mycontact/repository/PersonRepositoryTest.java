@@ -2,6 +2,7 @@ package com.fastcampus.javaallinone.project3.mycontact.repository;
 
 import com.fastcampus.javaallinone.project3.mycontact.domain.Person;
 import com.fastcampus.javaallinone.project3.mycontact.domain.dto.Birthday;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,8 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Transactional
 @SpringBootTest
@@ -20,51 +19,43 @@ class PersonRepositoryTest {
     private PersonRepository personRepository;
 
     @Test
-    void crud(){
-        Person person = new Person();
-        person.setId(6L);
-        person.setName("john");
-        personRepository.save(person);
-
-        // System.out.println(personRepository.findAll());
-        // 첫번째 테스트 출력값:
-        // [com.fastcampus.javaallinone.project3.mycontact.domain.Person@13390a96]
-        //
-        // 문제점:
-        // 1. 객체의 해시값이 출력되었음. -> ToString 메서드로 해결.
-        // 2. parameter 설정이 불가
-        // 3. Console에 Log를 찍을 뿐 자동화된 테스트라 보기 어려움.
-        //
-        // 1차 수정 후 출력값:
-        // [Person{id=1, name='null', age=0}]
-
-        List<Person> people = personRepository.findByName("john");
-
-        assertEquals(1, people.size());
-        assertEquals("john", people.get(0).getName());
-//        assertEquals(10, people.get(0).getAge());
-
+    void findByName(){
+        List<Person> people = personRepository.findByName("tony");
+        Assertions.assertEquals(1, people.size());
+        Person person = people.get(0);
+        Assertions.assertAll(
+                () -> Assertions.assertEquals("tony", person.getName()),
+                () -> Assertions.assertEquals("reading", person.getHobby()),
+                () -> Assertions.assertEquals("서울", person.getAddress()),
+                () -> Assertions.assertEquals(Birthday.of(LocalDate.of(1991, 7, 10)), person.getBirthday()),
+                () -> Assertions.assertEquals("010-2222-5555", person.getPhoneNumber()),
+                () -> Assertions.assertFalse(person.isDeleted())
+                );
     }
 
     @Test
-    void findByBirthdayBetween(){
-        List<Person> result = personRepository.findByMonthOfBirthday(8);
-
-
-        assertEquals(2, result.size());
-        assertEquals("martin", result.get(0).getName());
-        assertEquals("sophia", result.get(1).getName());
-
+    void findByNameIfDeleted(){
+        List<Person> people = personRepository.findByName("andrew");
+        Assertions.assertEquals(0, people.size());
     }
 
-    private void givenPerson(String name){
-        givenPerson(name, null);
+    @Test
+    void findByMonthOfBirthday(){
+        List<Person> people = personRepository.findByMonthOfBirthday(7);
+
+        Assertions.assertEquals(2, people.size());
+        Assertions.assertAll(
+                () -> Assertions.assertEquals("david", people.get(0).getName()),
+                () -> Assertions.assertEquals("tony", people.get(1).getName())
+        );
     }
 
-    private void givenPerson(String name, LocalDate birthday){
-        Person person = new Person(name);
-        person.setBirthday(Birthday.of(birthday));
-        personRepository.save(person);
+    @Test
+    void findPeopleDeleted(){
+        List<Person> people = personRepository.findPeopleDeleted();
 
+        Assertions.assertEquals(1, people.size());
+        Assertions.assertEquals("andrew", people.get(0).getName());
     }
+
 }
