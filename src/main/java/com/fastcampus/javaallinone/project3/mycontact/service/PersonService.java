@@ -22,9 +22,8 @@ public class PersonService {
         //Person person = personRepository.findById(id).get();
 
         Person person = personRepository.findById(id).orElse(null);
-
         // System.out.println("person : "+person);
-        log.info("person : {}", person);
+        // log.info("person : {}", person);
         return person;
     }
 
