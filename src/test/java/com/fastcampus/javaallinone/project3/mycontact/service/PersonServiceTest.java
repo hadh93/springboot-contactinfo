@@ -88,6 +88,23 @@ class PersonServiceTest {
         verify(personRepository, times(1)).save(argThat(new IsPersonWillBeUpdated()));
     }
 
+    @Test
+    void modifyByNameIfPersonNotFound(){
+        when(personRepository.findById(1L))
+                .thenReturn(Optional.empty());
+        assertThrows(RuntimeException.class, () -> personService.modify(1L, "daniel"));
+    }
+
+    @Test
+    void modifyByName(){
+        when(personRepository.findById(1L))
+                .thenReturn(Optional.of(new Person("martin")));
+        personService.modify(1L, "daniel");
+
+        verify(personRepository, times(1)).save(argThat(new isNameWillBeUpdated()));
+
+    }
+
     private PersonDto mockPersonDto(){
         return PersonDto.of("martin", "programming", "판교", LocalDate.now(), "programmer", "010-1111-2222");
     }
@@ -108,6 +125,16 @@ class PersonServiceTest {
             return expected.equals(actual);
         }
     }
+
+    private static class isNameWillBeUpdated implements ArgumentMatcher<Person>{
+
+        @Override
+        public boolean matches(Person person) {
+            return person.getName().equals("daniel");
+        }
+    }
+
+
 
 
 }
