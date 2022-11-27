@@ -60,7 +60,7 @@ class PersonServiceTest {
     @Test
     void put(){
         personService.put(mockPersonDto());
-        verify(personRepository, times(1)).save(any(Person.class));
+        verify(personRepository, times(1)).save(argThat(new IsPersonWillBeInserted()));
     }
 
     @Test
@@ -116,11 +116,30 @@ class PersonServiceTest {
     void delete(){
         when(personRepository.findById(1L)).thenReturn(Optional.of(new Person("martin")));
         personService.delete(1L);
-        verify(personRepository, times(1)).save(any(Person.class));
+        verify(personRepository, times(1)).save(argThat(new IsPersonWillBeDeleted()));
     }
 
     private PersonDto mockPersonDto(){
         return PersonDto.of("martin", "programming", "판교", LocalDate.now(), "programmer", "010-1111-2222");
+    }
+
+
+
+    private static class IsPersonWillBeInserted implements ArgumentMatcher<Person>{
+
+        @Override
+        public boolean matches(Person person) {
+            return equals(person.getName(),"martin")
+                    && equals(person.getHobby(),"programming")
+                    && equals(person.getAddress(),"판교")
+                    && equals(person.getBirthday(), Birthday.of(LocalDate.now()))
+                    && equals(person.getJob(),"programmer")
+                    && equals(person.getPhoneNumber(),"010-1111-2222");
+        }
+
+        private boolean equals(Object actual, Object expected){
+            return expected.equals(actual);
+        }
     }
 
     private static class IsPersonWillBeUpdated implements ArgumentMatcher<Person>{
