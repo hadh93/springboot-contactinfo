@@ -8,4 +8,5 @@ FASTCAMPUS Java Back-End Project 2: Contact Info
 > </p>
 
 - Dev log
-> 10.27.2022 ~
+> 10.27.2022 ~ 11.26 2022
+> FIXME: Paging (Front-End)
